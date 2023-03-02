@@ -84,7 +84,7 @@ For more detailed information on the data about the actions, properties, rows an
 
 <a name="connect"></a>
 
-## connect(appId, applicationAccessKey) ⇒ <code>AppSheetApp</code>
+## <code>connect(appId, applicationAccessKey) ⇒ AppSheetApp</code>
 Connect to an AppSheet App.
 
 To enable the AppSheet API in your app:
@@ -108,7 +108,7 @@ const AppSheet = AppSheetApp.connect('YOUR_APP_ID', 'YOUR_ACCESS_KEY');
 
 <a name="Add"></a>
 
-## Add(tableName, rows, properties) ⇒ <code>Object</code>
+## <code>Add(tableName, rows, properties) ⇒ Object</code>
 Add records to a table
 
 | Param | Type | Description |
@@ -120,7 +120,7 @@ Add records to a table
 **Returns**: <code>Object</code> - AppSheet Response
 <a name="Delete"></a>
 
-## Delete(tableName, rows, properties) ⇒ <code>Object</code>
+## <code>Delete(tableName, rows, properties) ⇒ Object</code>
 Delete records from a table
 
 | Param | Type | Description |
@@ -133,7 +133,7 @@ Delete records from a table
 
 <a name="Edit"></a>
 
-## Edit(tableName, rows, properties) ⇒ <code>Object</code>
+## <code>Edit(tableName, rows, properties) ⇒ Object</code>
 
 Update records in a table
 
@@ -147,7 +147,7 @@ Update records in a table
 
 <a name="Find"></a>
 
-## Find(tableName, rows, properties) ⇒ <code>Object</code>
+## <code>Find(tableName, rows, properties) ⇒ Object</code>
 Read records from a table
 
 | Param | Type | Description |
@@ -160,7 +160,7 @@ Read records from a table
 
 <a name="Action"></a>
 
-## Action(tableName, rows, action, properties) ⇒ <code>Object</code>
+## <code>Action(tableName, rows, action, properties) ⇒ Object</code>
 Invoke an action
 
 | Param | Type | Description |
