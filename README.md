@@ -16,19 +16,16 @@ To use the AppSheetApp service you need to generate an Application Access Key fo
 
 ## Setup
 
-This project is already published as an Apps Script library, making it easy to include
-in your project. To add it to your script, do the following in the Apps Script
-code editor:
+This project is already published as an Apps Script library, making it easy to include in your project. To add it to your script, do the following in the Apps Script code editor:
 
-1. Click on the menu item "Resources > Libraries..."
-2. In the "Find a Library" text box, enter the script ID
-   `UPDATE_SCRIPT_ID` and click the "Select" button.
+1. In the **Libraries** section click on the **Add a library** button (＋)
+2. In the **Script ID** text box, enter
+   `19UWd_F9ht9KuE4gxeNdFG8qIMdBeTu5gXyecmPqr8yOEoVO8UcxBYVsJ` and click the **Lookup** button.
 3. Choose a version in the dropdown box (usually best to pick the latest
    version).
-4. Click the "Save" button.
+4. Click the **Add** button.
 
-Alternatively, you can copy and paste the `Code.gs` file
-directly into your script project.
+Alternatively, you can copy and paste the [`AppSheetApp.js`](AppSheetApp.js) file directly into your script project.
 
 If you are [setting explicit scopes](https://developers.google.com/apps-script/concepts/scopes#setting_explicit_scopes)
 in your manifest file, ensure that the following scope is included:
@@ -37,7 +34,7 @@ in your manifest file, ensure that the following scope is included:
 
 ### Connecting Apps Script to AppSheet and using the service
 
-Before you can start making calls to your AppSheet app you need to use the `connect()` method to specify your app ID and Application Access Key. For security you may wish to store these values in the Property Service. Once you have connected to your app you can use methods to add, delete, read and update table records. The example below shows how to connect to your app and add two rows to a 'Staff' table:
+Before you can start making calls to your AppSheet app you need to use the `connect()` method to specify your app ID and Application Access Key. For security you may wish to store these values in the Property Service. Once you have connected to your app you can use methods to add, delete, read and update table records. The example below shows how to connect to your app and add two rows to a 'People' table:
 
 ```
 /**
@@ -61,9 +58,34 @@ function addRowsToTable() {
         }
     ];
 
-    // Add rows to the 'Staff' table
-    const resp = AppSheet.Add('Staff', rows);
+    // Add rows to the 'People' table
+    const resp = AppSheet.Add('People', rows);
     console.log(resp);
+}
+```
+
+## Example response body
+
+The returned records include all field values. This includes virtual fields and field values computed by worksheet formulas.
+
+```
+{
+  "Rows": [
+    {
+      "_RowNumber": 10,
+      "FirstName": "Jan",
+      "LastName": "Jones",
+      "Age": 33,
+      "Department": "Accounting",
+      "Date Hired": "10/31/2014",
+      "Arrived": "8:15:25",
+      "Departed": "18:30:33",
+      "Last Review": "08/31/2017 23:59:59",
+      "Rating": 0.9950,
+      "Salary": 3333.45,
+      "Image": "http://images6.fanpop.com/image/photos/36300000/Emilia-Clarke-image-emilia-clarke-36399128-460-276.jpg"
+    }
+  ]
 }
 ```
 
@@ -95,7 +117,6 @@ To enable the AppSheet API in your app:
 1. Ensure that at least one unexpired **Application Access Key** is present. Otherwise, click **Create Application Access Key**.
 1. When you are done, save the app.
 1. Use you app ID and Access Key to connect Apps Script to your app
-
 
 ```
 const AppSheet = AppSheetApp.connect('YOUR_APP_ID', 'YOUR_ACCESS_KEY');
@@ -148,7 +169,36 @@ Update records in a table
 <a name="Find"></a>
 
 ## <code>Find(tableName, rows, properties) ⇒ Object</code>
-Read records from a table
+Read records from a table.
+
+In the `Selector` property, you can specify an expression to select and format the rows returned. Valid `Selector` expressions are:
+
+* `FILTER()` to return keys to rows in a table or slice.
+* `ORDERBY()` expression to control the sort order of the returned records. 
+* `SELECT()` expression that yields a list of record key values. The records identified by the key values are returned in the Rows response. The SELECT() expression can refer to a slice.
+* `TOP()` expression to limit the number of returned rows.
+
+### Security Filters
+
+The `Find` is performed under the identity of the application owner by default. Your can override this by specifying the `RunAsUserEmail` property in the request properties.
+
+```
+/**
+ * Return rows from a People table where age is greater or equal to 21
+ * Run as user with the email an.example@email.com
+ */
+function findRowsInTable(){
+  const AppSheet = AppSheetApp.connect('YOUR_APP_ID', 'YOUR_ACCESS_KEY');
+
+  const properties = {
+    "RunAsUserEmail": "an.example@email.com",
+    "Selector": "Filter(People, [Age] >= 21)"
+  }
+
+  const resp = AppSheet.Find('People', [], properties);
+  console.log(resp);
+}
+```
 
 | Param | Type | Description |
 | --- | --- | --- |
