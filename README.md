@@ -10,6 +10,8 @@ The AppSheetApp service lets you access the AppSheet API using Apps Script. The 
 
 > **Note:** The AppSheet API is supported for Enterprise plans only.
 
+`AppSheetApp` has been created by Martin Hawksey (https://g.dev/mhawksey), Collaboration Engineer at [CTS](https://cts.co/).
+
 ## Enabling the AppSheet API
 
 To use the AppSheetApp service you need to generate an Application Access Key for your AppSheet app. To do this read the reference documentation on [enabling the API](https://support.google.com/appsheet/answer/10105769).
@@ -32,9 +34,13 @@ in your manifest file, ensure that the following scope is included:
 
 - `https://www.googleapis.com/auth/script.external_request`
 
-### Connecting Apps Script to AppSheet and using the service
+### Connecting Apps Script to AppSheet and using the Apps Script library
 
-Before you can start making calls to your AppSheet app you need to use the `connect()` method to specify your app ID and Application Access Key. For security you may wish to store these values in the Property Service. Once you have connected to your app you can use methods to add, delete, read and update table records. The example below shows how to connect to your app and add two rows to a 'People' table:
+Before you can start making calls to your AppSheet app you need to use the `connect()` method to specify your app ID and Application Access Key. For security you may wish to store these values in the Property Service. 
+
+> If you have copied `AppSheetApp.js` into your project instead of `connect()` use `new AppSheetApp()`
+
+Once you have connected to your app you can use methods to add, delete, read and update table records. The example below shows how to connect to your app and add two rows to a 'People' table:
 
 ```
 /**
@@ -42,6 +48,8 @@ Before you can start making calls to your AppSheet app you need to use the `conn
  */
 function addRowsToTable() {
     const AppSheet = AppSheetApp.connect('YOUR_APP_ID', 'YOUR_ACCESS_KEY');
+    // Alternatively if you have copied AppSheetApp.js use
+    // const AppSheet = AppSheetApp('YOUR_APP_ID', 'YOUR_ACCESS_KEY');
 
     const rows = [
         {
@@ -117,6 +125,7 @@ To enable the AppSheet API in your app:
 1. Ensure that at least one unexpired **Application Access Key** is present. Otherwise, click **Create Application Access Key**.
 1. When you are done, save the app.
 1. Use you app ID and Access Key to connect Apps Script to your app
+
 
 ```
 const AppSheet = AppSheetApp.connect('YOUR_APP_ID', 'YOUR_ACCESS_KEY');
